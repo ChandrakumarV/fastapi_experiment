@@ -68,3 +68,11 @@ docker run -p 8000:8000 --name fastapi-app fastapi-experiment
 ```bash
 uv run fastapi deploy
 ```
+
+#### In Production
+
+Uvicorn
+Gunicorn (GIL ) workers | utilize all the cores in CPU
+Proxy - nginx
+Caching
+Security - Rate limiting

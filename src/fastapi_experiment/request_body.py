@@ -6,6 +6,7 @@
 
 from pydantic import BaseModel
 from fastapi import APIRouter, Body
+from typing import Annotated
 
 router = APIRouter(
     prefix="/requests",
@@ -13,6 +14,13 @@ router = APIRouter(
 )
 
 
+# Singular values in body ----------
+@router.post("/items/primitive")
+async def create_item(quantity: str = Body()):
+    return {"quantity": quantity}
+
+
+# typed value in body -------
 class Item(BaseModel):
     name: str
     description: str | None = None
@@ -20,11 +28,19 @@ class Item(BaseModel):
     tax: float | None = None
 
 
-@router.post("/items/")
+@router.post("/items/typed-body")
 async def create_item(item: Item):
     return item
 
 
-@router.post("/items/test")
-async def create_item(quantity: str = Body()):
-    return {"quantity": quantity}
+# typed value in body
+@router.post("/items/embed")
+async def create_item(item: Annotated[Item, Body(embed=True)]):
+    return item
+
+
+# {
+#   "item": {
+#         ...
+#   }
+# }

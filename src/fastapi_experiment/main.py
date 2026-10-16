@@ -1,11 +1,17 @@
 from fastapi import FastAPI
+from fastapi_experiment.config import settings
 
 app = FastAPI()
 
 
 @app.get("/")
 def test():  # path operation function
-    return {"message": "Hello World"}
+    return {"message": "Hello World", "config": settings}
+
+
+@app.get("/config")
+def test():  # path operation function
+    return settings
 
 
 from fastapi_experiment.path_param import router as path_param_router

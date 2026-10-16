@@ -15,7 +15,7 @@ dependencies = [
 fastapi-experiment = "fastapi_experiment:main"
 
 [tool.fastapi]
-entrypoint = "fastapi_experiment.main:app"
+entrypoint = "main:app"
 
 [build-system]
 requires = ["uv_build>=0.12.10,<0.13.0"]

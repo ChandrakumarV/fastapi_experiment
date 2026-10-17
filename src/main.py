@@ -1,8 +1,18 @@
 from fastapi import FastAPI, Request
 from config import settings
+from contextlib import asynccontextmanager
+from collections.abc import AsyncGenerator
 import time
 
-app = FastAPI()
+
+@asynccontextmanager
+async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
+    print("--- ✅ Application starting ---")  # Startup
+    yield
+    print("--- ❌ Application shutting down ---")  # Shutdown
+
+
+app = FastAPI(lifespan=lifespan)
 
 
 @app.middleware("http")

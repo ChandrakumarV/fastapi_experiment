@@ -1,5 +1,6 @@
 from enum import Enum
-from fastapi import APIRouter, HTTPException, Path
+from fastapi import APIRouter
+from pydantic import BaseModel
 
 router = APIRouter(
     tags=["Path Parameters"],
@@ -26,7 +27,7 @@ class UserName(str, Enum):
     Ram = "ram"
 
 
-@router.get("/users/name/{user_name}")
+@router.get("/users/names/{user_name}")
 async def get_by_username(user_name: UserName):
     if user_name is UserName.Chandru:
         return {"user_name": user_name, "message": "Good Boy"}
@@ -39,9 +40,24 @@ async def get_by_username(user_name: UserName):
 
 # ---- Catch all routes -----
 # like: [...file_path]
-# defined  proper "response" type
 
-from pydantic import BaseModel
+# Typed response :
+# [
+#   "string"
+# ]
+#
+
+
+@router.get("/files/return-arr/{file_path:path}", response_model=list[str])
+async def read_file(file_path: str) -> list[str]:
+    return file_path.split("/")
+
+
+# {
+#   "file_path": [
+#     "string"
+#   ]
+# }
 
 
 class FilePathResponse(BaseModel):

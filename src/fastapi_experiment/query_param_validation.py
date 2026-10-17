@@ -41,9 +41,8 @@ async def read_items(
 # You can use Pydantic models to declare query parameters in FastAPI. 😎
 # Query Parameters with a Pydantic Model
 class FilterParams(BaseModel):
-    model_config = {
-        "extra": "forbid"
-    }  # if user send extra query param it's won't allow
+    # if user send extra query param it's won't allow. API will fail
+    model_config = {"extra": "forbid"}
 
     limit: int = Field(100, gt=2, le=100)
     offset: int = Field(0, ge=0)
